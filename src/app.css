@@ -293,6 +293,7 @@ textarea {
   ========================================================================== */
 
 html {
+    line-height: 1;
     background: #eee;
     font-family: "Noto Serif","Hiragino Sans GB","冬青黑","Microsoft YaHei","微软雅黑",SimSun,"宋体",serif;
 }
@@ -300,11 +301,18 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1;
     font-family: Roboto,"Hiragino Sans GB","冬青黑","Microsoft YaHei","微软雅黑",SimSun,"宋体",sans-serif;
 }
-a {
+a,
+a:visited,
+a:active {
     text-decoration: none;
+    color: rebeccapurple;
 }
 
 
+
+/* ==========================================================================
+  High level containers
+  ========================================================================== */
 .container {
     box-sizing: border-box;
 }
@@ -321,6 +329,10 @@ a {
 }
 
 
+
+/* ==========================================================================
+  Title area
+  ========================================================================== */
 .overlay {
     background: rebeccapurple;
     margin: 0 auto -8rem;
@@ -335,6 +347,9 @@ a {
 
 
 
+/* ==========================================================================
+  Headings
+  ========================================================================== */
 .heading {
     margin: 0 0 1rem;
     padding: 0;
@@ -347,9 +362,6 @@ a {
 .heading--html {
     display: none;
 }
-
-
-
 .subheading {
     margin: 0;
     padding: 0;
@@ -361,23 +373,28 @@ a {
 
 
 
+/* ==========================================================================
+  Contents
+  ========================================================================== */
 .container--content {
     width: 100%;
-    padding: 2rem;
+    padding: 4rem 2rem;
 }
 .container--markdown {
     border-right: 1px solid #eee;
 }
 .container--markup,
 .container--html {
+    padding: 2rem 2rem 4rem;
+    font-family: Roboto,"Hiragino Sans GB","冬青黑","Microsoft YaHei","微软雅黑",SimSun,"宋体",sans-serif;
 }
 .heading--markdown {
 }
 .content {
+    line-height: 1.4;
     width: 100%;
-    wordBreak: break-word;
-    boxSizing: border-box;
-    boxSizing: border-box;
+    word-break: break-word;
+    box-sizing: border-box;
     outline: none;
     overflow: auto;
     border: 0;
@@ -387,16 +404,26 @@ a {
 .content--markdown {
     height: 20rem;
 }
-.content--markup {
-}
+.content--markup,
 .content--html {
 }
+.preview {
+    text-align: right;
+    margin: 0 0 1rem;
+}
+.preview__link {
+    font-size: 14px;
+    margin: 0 0 1rem;
+}
 
 
-
+/* ==========================================================================
+  Footer
+  ========================================================================== */
 footer {
     color: #666;
     font-family: Roboto,"Hiragino Sans GB","冬青黑","Microsoft YaHei","微软雅黑",SimSun,"宋体",sans-serif;
     max-width: 960px;
     margin: 4rem auto;
+    text-align: center;
 }

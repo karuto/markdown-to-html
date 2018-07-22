@@ -22,12 +22,15 @@ class Page extends React.Component {
             headingMarkdown: 'Markdown:',
             headingMarkup: 'Markup:',
             headingHtml: 'Rendered HTML:',
-            placeholderMarkdown: 'Enter your markdown here'
+            placeholderMarkdown: 'Enter your markdown here',
+            previewOn: 'Show markup',
+            previewOff: 'Show rendered HTML'
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handlePreview = this.handlePreview.bind(this);
         this.getComponent = this.getComponent.bind(this);
+        this.getPreview = this.getPreview.bind(this);
         this.getHtmlComponent = this.getHtmlComponent.bind(this);
     }
 
@@ -67,6 +70,22 @@ class Page extends React.Component {
         );
     }
 
+    getPreview() {
+        const text = this.state.isPreview ? this.strings.previewOn : this.strings.previewOff;
+        const preview = (
+            <div className='preview'>
+                <a
+                href='#'
+                className='preview__link'
+                onClick={this.handlePreview}>
+                    {text}
+                </a>
+            </div>
+        );
+
+        return preview;
+    }
+
     getHtmlComponent(id, strings) {
         const htmlComponent = this.state.isPreview ?
             this.getComponent('html') :
@@ -75,10 +94,15 @@ class Page extends React.Component {
     }
 
     getTextArea(parsedId) {
+        const preview = this.getPreview();
+
         if (parsedId === this.config.validComponentTypes.markup) {
             return (
-                <div className='content content--markup'>
-                    {this.state.markup}
+                <div>
+                    {preview}
+                    <div className='content content--markup'>
+                        {this.state.markup}
+                    </div>
                 </div>
             );
 
@@ -86,9 +110,12 @@ class Page extends React.Component {
 
         if (parsedId === this.config.validComponentTypes.html) {
             return (
-                <div
-                    className='content content--html'
-                    dangerouslySetInnerHTML={{__html: this.state.markup}}>
+                <div>
+                    {preview}
+                    <div
+                        className='content content--html'
+                        dangerouslySetInnerHTML={{__html: this.state.markup}}>
+                    </div>
                 </div>
             );
         }
@@ -107,11 +134,6 @@ class Page extends React.Component {
     }
 
     render() {
-        this.strings.previewLink = this.state.isPreview ? 'Hide preview' : 'Show preview';
-
-        // const preview = <a href="#" onClick={this.handlePreview}>{this.strings.previewLink}</a>;
-        const preview = null;
-
         return (
             <div className='container container--global'>
                 <div className='overlay'>
@@ -121,12 +143,11 @@ class Page extends React.Component {
                     </header>
                 </div>
                 <div className='container container--contents'>
-                    {preview}
                     {this.getComponent('markdown')}
                     {this.getHtmlComponent()}
                 </div>
                 <footer className='container'>
-                    Made by Vincent Zhang. Find this project on <a href='https://github.com/karuto/markdown-to-html'>GitHub</a> or contact me with <a href='mailto:hello@vincentzh.com'>email.</a>
+                    Made by <a href='https://github.com/karuto'>Vincent Zhang.</a> Find this project on <a href='https://github.com/karuto/markdown-to-html'>GitHub</a> or contact me with <a href='mailto:hello@vincentzh.com'>email.</a>
                 </footer>
             </div>
         );
