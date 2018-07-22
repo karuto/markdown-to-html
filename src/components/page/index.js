@@ -1,13 +1,12 @@
 import React from 'react';
 import marked from 'marked';
-import styles from './styles.js'
 
 class Page extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markdown: 'markdown',
-            markup: 'markup',
+            markdown: '# Markdown',
+            markup: '<h1 id="markdown">Markdown</h1>',
             isPreview: false
         };
         this.config = {
@@ -19,9 +18,11 @@ class Page extends React.Component {
         };
         this.strings = {
             headingGlobal: 'Markdown to HTML',
+            subheadingGlobal: 'Type Markdown on the left, see HTML on the right.',
             headingMarkdown: 'Markdown:',
             headingMarkup: 'Markup:',
-            headingHtml: 'Rendered HTML:'
+            headingHtml: 'Rendered HTML:',
+            placeholderMarkdown: 'Enter your markdown here'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -49,17 +50,16 @@ class Page extends React.Component {
         }
 
         const parsedId = this.config.validComponentTypes[id];
-        console.log(id, parsedId);
 
         const componentConfig = {
-            containerStyleId: 'container' + parsedId,
-            headingStyleId: 'heading' + parsedId,
+            containerClasses: 'container--content container--' + parsedId.toLowerCase(),
+            headingClasses: 'heading heading--' + parsedId.toLowerCase(),
             headingStringId: 'heading' + parsedId
         };
 
         return (
-            <div style={styles[componentConfig.containerStyleId]}>
-                <h2 style={styles[componentConfig.headingStyleId]}>
+            <div className={componentConfig.containerClasses}>
+                <h2 className={componentConfig.headingClasses}>
                     {this.strings[componentConfig.headingStringId]}
                 </h2>
                 {this.getTextArea(parsedId)}
@@ -77,7 +77,7 @@ class Page extends React.Component {
     getTextArea(parsedId) {
         if (parsedId === this.config.validComponentTypes.markup) {
             return (
-                <div style={styles.contentMarkup}>
+                <div className='content content--markup'>
                     {this.state.markup}
                 </div>
             );
@@ -87,7 +87,7 @@ class Page extends React.Component {
         if (parsedId === this.config.validComponentTypes.html) {
             return (
                 <div
-                    style={styles.contentHtml}
+                    className='content content--html'
                     dangerouslySetInnerHTML={{__html: this.state.markup}}>
                 </div>
             );
@@ -96,8 +96,8 @@ class Page extends React.Component {
         if (parsedId === this.config.validComponentTypes.markdown) {
             return <textarea
                 autoFocus
-                rows='4'
-                style={styles.contentMarkdown}
+                placeholder={this.strings.placeholderMarkdown}
+                className='content content--markdown'
                 value={this.state.markdown}
                 onChange={this.handleChange}
                 />;
@@ -113,13 +113,21 @@ class Page extends React.Component {
         const preview = null;
 
         return (
-            <div style={styles.global}>
-                <h1 style={styles.heading}>{this.strings.headingGlobal}</h1>
-                <div style={styles.containerGlobal}>
+            <div className='container container--global'>
+                <div className='overlay'>
+                    <header className='titles'>
+                        <h1 className='heading heading--titles'>{this.strings.headingGlobal}</h1>
+                        <h3 className='subheading subheading--titles'>{this.strings.subheadingGlobal}</h3>
+                    </header>
+                </div>
+                <div className='container container--contents'>
                     {preview}
                     {this.getComponent('markdown')}
                     {this.getHtmlComponent()}
                 </div>
+                <footer className='container'>
+                    Made by Vincent Zhang. Find this project on <a href='https://github.com/karuto/markdown-to-html'>GitHub</a> or contact me with <a href='mailto:hello@vincentzh.com'>email.</a>
+                </footer>
             </div>
         );
     }
