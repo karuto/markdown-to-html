@@ -1,5 +1,10 @@
 import React from 'react';
 import marked from 'marked';
+import ContentAreaHtml from '../content-area-html';
+import ContentAreaMarkup from '../content-area-markup';
+import ContentAreaMarkdown from '../content-area-markdown';
+import PreviewToggle from '../preview-toggle';
+import Footer from '../footer';
 
 class Page extends React.Component {
     constructor(props) {
@@ -9,6 +14,7 @@ class Page extends React.Component {
             markup: '<h1 id="markdown">Markdown</h1>',
             isPreview: false
         };
+
         this.config = {
             validComponentTypes: {
                 markdown: 'Markdown',
@@ -16,6 +22,7 @@ class Page extends React.Component {
                 html: 'Html'
             }
         };
+
         this.strings = {
             headingGlobal: 'Markdown to HTML',
             subheadingGlobal: 'Type Markdown on the left, see HTML on the right.',
@@ -65,25 +72,14 @@ class Page extends React.Component {
                 <h2 className={componentConfig.headingClasses}>
                     {this.strings[componentConfig.headingStringId]}
                 </h2>
-                {this.getTextArea(parsedId)}
+                {this.getContentArea(parsedId)}
             </div>
         );
     }
 
     getPreview() {
         const text = this.state.isPreview ? this.strings.previewOn : this.strings.previewOff;
-        const preview = (
-            <div className='preview'>
-                <a
-                href='#'
-                className='preview__link'
-                onClick={this.handlePreview}>
-                    {text}
-                </a>
-            </div>
-        );
-
-        return preview;
+        return <PreviewToggle text={text} handler={this.handlePreview} />
     }
 
     getHtmlComponent(id, strings) {
@@ -93,16 +89,14 @@ class Page extends React.Component {
         return htmlComponent;
     }
 
-    getTextArea(parsedId) {
+    getContentArea(parsedId) {
         const preview = this.getPreview();
 
         if (parsedId === this.config.validComponentTypes.markup) {
             return (
                 <div>
                     {preview}
-                    <div className='content content--markup'>
-                        {this.state.markup}
-                    </div>
+                    <ContentAreaMarkup markup={this.state.markup} />
                 </div>
             );
 
@@ -112,22 +106,13 @@ class Page extends React.Component {
             return (
                 <div>
                     {preview}
-                    <div
-                        className='content content--html'
-                        dangerouslySetInnerHTML={{__html: this.state.markup}}>
-                    </div>
+                    <ContentAreaHtml markup={this.state.markup} />
                 </div>
             );
         }
 
         if (parsedId === this.config.validComponentTypes.markdown) {
-            return <textarea
-                autoFocus
-                placeholder={this.strings.placeholderMarkdown}
-                className='content content--markdown'
-                value={this.state.markdown}
-                onChange={this.handleChange}
-                />;
+            return <ContentAreaMarkdown value={this.state.markdown} handler={this.handleChange} />;
         }
 
         return null;
@@ -146,9 +131,7 @@ class Page extends React.Component {
                     {this.getComponent('markdown')}
                     {this.getHtmlComponent()}
                 </div>
-                <footer className='container'>
-                    Made by <a href='https://github.com/karuto'>Vincent Zhang.</a> Find this project on <a href='https://github.com/karuto/markdown-to-html'>GitHub</a> or contact me with <a href='mailto:hello@vincentzh.com'>email.</a>
-                </footer>
+                <Footer />
             </div>
         );
     }
