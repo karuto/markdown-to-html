@@ -26,10 +26,6 @@ class Page extends React.Component {
         this.strings = {
             headingGlobal: 'Markdown to HTML',
             subheadingGlobal: 'Type Markdown on the left, see HTML on the right.',
-            headingMarkdown: 'Markdown:',
-            headingMarkup: 'Markup:',
-            headingHtml: 'Rendered HTML:',
-            placeholderMarkdown: 'Enter your markdown here',
             previewOn: 'Show markup',
             previewOff: 'Show rendered HTML'
         };
@@ -62,16 +58,11 @@ class Page extends React.Component {
         const parsedId = this.config.validComponentTypes[id];
 
         const componentConfig = {
-            containerClasses: 'container--content container--' + parsedId.toLowerCase(),
-            headingClasses: 'heading heading--' + parsedId.toLowerCase(),
-            headingStringId: 'heading' + parsedId
+            containerClasses: 'container--content container--' + parsedId.toLowerCase()
         };
 
         return (
             <div className={componentConfig.containerClasses}>
-                <h2 className={componentConfig.headingClasses}>
-                    {this.strings[componentConfig.headingStringId]}
-                </h2>
                 {this.getContentArea(parsedId)}
             </div>
         );
