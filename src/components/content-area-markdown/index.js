@@ -1,12 +1,29 @@
 import React from 'react';
 
-export default function ContentAreaMarkdown({handler, value}) {
-    return (
-        <textarea
-            autoFocus
-            className='content content--markdown'
-            value={value}
-            onChange={handler}
-            />
-    );
-};
+class ContentAreaMarkdown extends React.Component {
+    constructor(props) {
+        super(props);
+        this.element = null;
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        console.log(this.element);
+        this.props.handler(event);
+    }
+
+    render() {
+        return (
+            <textarea
+                autoFocus
+                className='content content--markdown'
+                value={this.props.value}
+                onChange={this.handleChange}
+                ref={(ref) => {this.element = ref;}}
+                />
+        );
+    }
+}
+
+export default ContentAreaMarkdown;
