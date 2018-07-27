@@ -9,7 +9,7 @@ class ContentAreaMarkdown extends React.Component {
     }
 
     handleChange(event) {
-        console.log(this.element);
+        console.log(this.element.scrollHeight);
         this.props.handler(event);
     }
 

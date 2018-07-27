@@ -402,7 +402,7 @@ a:active {
     margin: 0;
 }
 .content--markdown {
-    height: 20rem;
+    height: 22px; /* line-height of 1 line text */
 }
 .content--markup,
 .content--html {
