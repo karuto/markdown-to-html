@@ -4,12 +4,13 @@ class ContentAreaMarkdown extends React.Component {
     constructor(props) {
         super(props);
         this.element = null;
+        this.style = null;
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        console.log(this.element.scrollHeight);
+        this.style = {height: `${this.element.scrollHeight}px`};
         this.props.handler(event);
     }
 
@@ -18,6 +19,7 @@ class ContentAreaMarkdown extends React.Component {
             <textarea
                 autoFocus
                 className='content content--markdown'
+                style={this.style}
                 value={this.props.value}
                 onChange={this.handleChange}
                 ref={(ref) => {this.element = ref;}}
